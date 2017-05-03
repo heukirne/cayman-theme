@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/cayman.css">
+    <script src="js/papaparse.min.js"></script>
+    <script src="js/jszip.min.js"></script>
+    <script src="js/jszip-utils.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   </head>
   <body>
     <section class="page-header">
@@ -303,4 +307,23 @@
     </section>
 
   </body>
+  <script type="text/javascript">
+  var zip = new JSZip();
+
+    JSZipUtils.getBinaryContent('https://heukirne.github.io/wheel-of-life/js/corpus_liwc_mtx.csv.zip', (err, data) => {
+        if(err) {
+            throw err;
+        }
+
+        JSZip.loadAsync(data)
+            .then(zip => {
+                var content = zip.file("corpus_liwc_mtx.csv").async("string").then(content => {
+                  var data = Papa.parse(content);
+                  console.log(data);
+                }
+            )
+        });
+    });
+
+  </script>
 </html>
