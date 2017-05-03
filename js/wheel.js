@@ -6,7 +6,7 @@ var loadViz = function(){
 
 var loadData = function(){
 
-    var zipFile = "corpus_liwc_mtx.csv";
+    var zipFile = "story_liwc_author_tiny.csv";
     //var zipFile = "story_liwc_author.csv";
     JSZipUtils.getBinaryContent('https://heukirne.github.io/wheel-of-life/js/' + zipFile + '.zip', (err, dataLoad) => {
         if(err) {
