@@ -26,7 +26,7 @@ var loadData = function(){
                   data.splice(0,1);
 
                   // deixa somente 20 linhas para depuração
-                  data.splice(200, data.length)
+                  data.splice(2000, data.length)
 
                   //imprime os dados no console do browser
                   console.log(data);
@@ -42,18 +42,36 @@ var loadData = function(){
 
 };
 
+// http://mcaule.github.io/d3-timeseries/
+
 var draw = function (data) {
 
   var dateMap = new Map();
+  var processData = [];
 
   data.forEach(d => {
     d.date = new Date(d[67]);
-    d.n = +d[29]; // posemo
-    d.n3 = +d[30]; //negemo
+
+    if (+d[29]) { // permite somente um dado por data
+      dateMap.set(d.date.getTime(),{date: d.date, positive: +d[29], negative: +d[30] })
+    }
   });
 
+  console.log(dateMap);
+
+  dateMap.forEach((value, key)=>{
+    processData.push(value);
+  });
+
+  processData.sort(function(a, b) {
+    return a.date - b.date;
+  });
+
+  console.log(processData);
+
   var chart = d3.timeseries()
-                .addSerie(data,{x:'date',y:'n',diff:'n3'},{color:"#333"})
+                .addSerie(processData,{x:'date',y:'positive'},{interpolate:'linear',color:"red"})
+                .addSerie(null,{x:'date',y:'negative'},{color:"blue"})
                 .width(900)
 
   chart('#d3chart')
