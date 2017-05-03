@@ -1,6 +1,6 @@
 var zip = new JSZip();
 
-JSZipUtils.getBinaryContent('https://heukirne.github.io/wheel-of-life/data/corpus_liwc_mtx.csv.zip', (err, data) => {
+JSZipUtils.getBinaryContent('https://heukirne.github.io/wheel-of-life/js/corpus_liwc_mtx.csv.zip', (err, data) => {
     if(err) {
         throw err;
     }
