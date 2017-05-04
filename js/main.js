@@ -63,5 +63,5 @@ var selectAuthors = () => {
 };
 
 $( "#authorID" ).change( () => {
-  draw($('#authorID option:selected').val());
+  drawTimeSeries($('#authorID option:selected').val());
 });
