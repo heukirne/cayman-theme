@@ -1,4 +1,4 @@
-//source: https://raw.githubusercontent.com/bessfernandez/radar-coffee-wheel/master/scripts/main.js
+// Author: https://github.com/bessfernandez/radar-coffee-wheel
 
 /* An SVG radial chart built to illustrate the flavors in a cup of coffee.
    Adjustable via range sliders.
@@ -13,14 +13,23 @@
 
 'use strict';
 
-var data,
+var dataRadial,
     coffeeInputs,
     coffeeColors = [],
     domainRange = 100;
 
-var initChartData = function() {
+var radialChart = radialBarChart()
+  .barHeight(250)
+  .reverseLayerOrder(true)
+  .capitalizeLabels(true)
+  .barColors(coffeeColors)
+  .domain([0, domainRange])
+  .tickValues([10,20,30,40,50,60,70,80,90,100])
+  .tickCircleValues([10,20,30,40,50,60,70,80,90]);
+
+var initChartData = () => {
   // data array used to build D3 chart
-  data = [ { data: {} } ];
+  dataRadial = [ { data: {} } ];
 
   // convert array-like inputs to array
   coffeeInputs = [];
@@ -39,8 +48,8 @@ var initChartData = function() {
     var flavor = item.flavor,
         color = item.color;
 
-    if (data && color) {
-      data[0].data[flavor] = item.value * domainRange;
+    if (dataRadial && color) {
+      dataRadial[0].data[flavor] = item.value * domainRange;
 
       // coffee colors push to own array, want to be able to
       // keep colors as an option potentially
@@ -53,57 +62,91 @@ var initChartData = function() {
   });
 };
 
-var buildInitialTaste = function() {
+var buildInitialTaste = () => {
   // chart assumes default coffee flavors and colors are input
   // elements in the DOM
-  var formId = 'coffees';
-
   initChartData();
 
+  //console.log(dataRadial);
+
   d3.select('#d3-radialbar')
-    .datum(data)
-    .call(chart);
+    .datum(dataRadial)
+    .call(radialChart);
 }
 
-var chart = radialBarChart()
-  .barHeight(250)
-  .reverseLayerOrder(true)
-  .capitalizeLabels(true)
-  .barColors(coffeeColors)
-  .domain([0, domainRange])
-  .tickValues([10,20,30,40,50,60,70,80,90,100])
-  .tickCircleValues([10,20,30,40,50,60,70,80,90]);
+var computePsycoCategories = (authorID) => {
 
+  var dateMap = new Map();
+  var processData = [];
 
-var reflavor = function() {
-  var currValue =  parseFloat(this.value),
-      currKey =    coffeeInputs.indexOf(this),
-      currFlavor = this.getAttribute('data-flavor');
+/* LIWC Categories
+24:"social"
+25:"family"
+26:"friend"
+27:"humans"
+48:"body"
+49:"health"
+50:"sexual"
+56:"work"
+57:"achieve"
+58:"leisure"
+59:"home"
+60:"money"
+61:"relig"
+62:"death"
+*/
 
-  // @TODO - quick `isNan` and over max value check -
-  // need to refactor once defaults are finalized for
-  // supported HTML and max values
-  currValue = isNaN(currValue) ? 0 : currValue;
-  currValue = currValue > 1.0 ? 1.0 : currValue;
+  dataRadial[0].data['work'] = 40;
+  dataRadial[0].data['health'] = 80;
+  dataRadial[0].data['family'] = 10;
+  dataRadial[0].data['friends'] = 30;
+  dataRadial[0].data['social'] = 50;
+  dataRadial[0].data['sexual'] = 20;
+  dataRadial[0].data['money'] = 50;
+  dataRadial[0].data['religion'] = 10;
+  dataRadial[0].data['death'] = 10;
 
-  // update current slider flavor
-  coffeeInputs.forEach(function(item, index) {
-    if (index === currKey) {
-      data[0].data[currFlavor] = currValue * domainRange;
+  dataCSV.forEach(d => {
+
+    if (d[66] == authorID) { // filtra o author
+
+      dataRadial[0].data['work'] += +d[56];
+      dataRadial[0].data['health'] += +d[49] + +d[48];
+      dataRadial[0].data['family'] += +d[25] + +d[59];
+      dataRadial[0].data['friends'] += +d[26];
+      dataRadial[0].data['social'] += +d[24] + +d[58];
+      dataRadial[0].data['sexual'] += +d[50];
+      dataRadial[0].data['money'] += +d[60];
+      dataRadial[0].data['religion'] += +d[61];
+      dataRadial[0].data['death'] += +d[62];
+
     }
+
   });
+
+  var sum = 0
+  for(var flavor in dataRadial[0].data) {
+      sum += dataRadial[0].data[flavor];
+  }
+
+  for(var flavor in dataRadial[0].data) {
+      dataRadial[0].data[flavor] = 100 * dataRadial[0].data[flavor] / sum;
+  }
+
+  //console.log(dataRadial);
+  return dataRadial;
+
+}
+
+var redrawRadial = (authorID) => {
+  
+  dataRadial = computePsycoCategories(authorID);
 
   // update chart with new flavor
   d3.select('#d3-radialbar')
-    .datum(data)
-    .call(chart);
+    .datum(dataRadial)
+    .call(radialChart);
 };
-
-// watch for flavor changes
-//d3.selectAll('input')
-  //.on('input', reflavor);
 
 // kick off the jams
 buildInitialTaste();
-
-

@@ -1,5 +1,6 @@
-// http://mcaule.github.io/d3-timeseries/
-var drawTimeSeries = (authorID) => {
+// Author: http://mcaule.github.io/d3-timeseries/
+
+var computePolarities = (authorID) => {
 
   var dateMap = new Map();
   var processData = [];
@@ -25,7 +26,7 @@ var drawTimeSeries = (authorID) => {
     }
   });
 
-  console.log(dateMap);
+  //console.log(dateMap);
 
   dateMap.forEach((value, key)=>{
     processData.push(value);
@@ -35,10 +36,18 @@ var drawTimeSeries = (authorID) => {
     return a.date - b.date;
   });
 
-  console.log(processData);
+  //console.log(processData);
+
+  return processData;
+
+}
+
+var drawTimeSeries = (authorID) => {
+
+  var polaritiesTimeSeries = computePolarities(authorID);
 
   var chart = d3.timeseries()
-                .addSerie(processData,{x:'date',y:'positive'},{interpolate:'linear',color:"red"})
+                .addSerie(polaritiesTimeSeries,{x:'date',y:'positive'},{interpolate:'linear',color:"red"})
                 .addSerie(null,{x:'date',y:'negative'},{interpolate:'linear',color:"blue"})
                 .width(900)
 

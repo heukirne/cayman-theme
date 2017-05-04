@@ -30,12 +30,13 @@ var loadData = function(){
                   dataCSV.splice(2000, dataCSV.length)
 
                   //imprime os dados no console do browser
-                  console.log(dataCSV);
+                  //console.log(dataCSV);
 
                   // remove "Loading..." e imprime o gráfico
                   $('#title').text("Visualization");
                   selectAuthors();
-                  drawTimeSeries(dataCSV[0][66], dataCSV);
+                  drawTimeSeries(dataCSV[0][66]);
+                  redrawRadial(dataCSV[0][66]);
 
                 }
             )
@@ -58,10 +59,12 @@ var selectAuthors = () => {
                       .text(value)); 
   });
 
-  console.log(authorMap);
+  //console.log(authorMap);
 
 };
 
 $( "#authorID" ).change( () => {
-  drawTimeSeries($('#authorID option:selected').val());
+  var authorID = $('#authorID option:selected').val();
+  drawTimeSeries(authorID);
+  redrawRadial(authorID);
 });
