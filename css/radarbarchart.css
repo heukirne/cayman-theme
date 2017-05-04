@@ -1,0 +1,52 @@
+
+/* flexin */
+#taste-wrapper {
+  display: flex;
+}
+#d3-radialbar {
+  margin-left: 20px;
+  flex: 1;
+}
+
+
+/* SVG */
+
+#d3-radialbar path {
+  fill: none;
+}
+
+/* Outer circle, tick-circles and spokes */
+#d3-radialbar circle.outer {
+  stroke: #aaa;
+  stroke-dasharray: 4, 4;
+}
+#d3-radialbar .tick-circles circle {
+  stroke: #ddd;
+  stroke-dasharray: 2, 2;
+}
+#d3-radialbar .spokes line {
+  stroke: #666;
+  stroke-width: 0.2;
+}
+
+/* Axis */
+#d3-radialbar .axis text {
+  font-size: 1.1rem;
+}
+#d3-radialbar .axis path {
+  stroke: #999;
+  shape-rendering: crispEdges;
+}
+#d3-radialbar .axis line {
+  stroke: #999;
+  shape-rendering: crispEdges;
+}
+
+/* Labels */
+#d3-radialbar .labels text {
+  fill: #333;
+  font-size: 1.0rem;
+  font-weight: 500;
+}
+
+
