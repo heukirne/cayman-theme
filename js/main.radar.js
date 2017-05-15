@@ -33,16 +33,14 @@ var initChartData = () => {
 
   // convert array-like inputs to array
   coffeeInputs = [];
-  coffeeInputs.push({flavor: 'work', color: 'gray', value:'.4'});
-  coffeeInputs.push({flavor: 'health', color: 'green', value:'.8'});
+  coffeeInputs.push({flavor: 'friends', color: 'orange', value:'.1'});
+  coffeeInputs.push({flavor: 'money', color: 'green', value:'.5'});
+  coffeeInputs.push({flavor: 'health', color: 'red', value:'.8'});
   coffeeInputs.push({flavor: 'family', color: 'blue', value:'.4'});
-  coffeeInputs.push({flavor: 'friends', color: 'yellow', value:'.1'});
-  coffeeInputs.push({flavor: 'social', color: 'orange', value:'.3'});
-  coffeeInputs.push({flavor: 'sexual', color: 'red', value:'.3'});
-  coffeeInputs.push({flavor: 'money', color: 'purple', value:'.5'});
-  coffeeInputs.push({flavor: 'religion', color: 'brown', value:'.1'});
-  coffeeInputs.push({flavor: 'death', color: 'black', value:'.4'});
-
+  coffeeInputs.push({flavor: 'sexual', color: 'darkred', value:'.3'});
+  coffeeInputs.push({flavor: 'religion', color: 'purple', value:'.1'});
+  coffeeInputs.push({flavor: 'work', color: 'darkgoldenrod ', value:'.4'});  
+  coffeeInputs.push({flavor: 'body', color: 'mediumblue', value:'.3'});
 
   coffeeInputs.forEach(function(item, index) {
     var flavor = item.flavor,
@@ -100,25 +98,23 @@ var computePsycoCategories = (authorID) => {
   dataRadial[0].data['health'] = 80;
   dataRadial[0].data['family'] = 10;
   dataRadial[0].data['friends'] = 30;
-  dataRadial[0].data['social'] = 50;
+  dataRadial[0].data['body'] = 50;
   dataRadial[0].data['sexual'] = 20;
   dataRadial[0].data['money'] = 50;
   dataRadial[0].data['religion'] = 10;
-  dataRadial[0].data['death'] = 10;
 
   dataCSV.forEach(d => {
 
     if (d[66] == authorID) { // filtra o author
 
       dataRadial[0].data['work'] += +d[56];
-      dataRadial[0].data['health'] += +d[49] + +d[48];
+      dataRadial[0].data['health'] += +d[49];
       dataRadial[0].data['family'] += +d[25] + +d[59];
       dataRadial[0].data['friends'] += +d[26];
-      dataRadial[0].data['social'] += +d[24] + +d[58];
+      dataRadial[0].data['body'] += +d[48];
       dataRadial[0].data['sexual'] += +d[50];
       dataRadial[0].data['money'] += +d[60];
       dataRadial[0].data['religion'] += +d[61];
-      dataRadial[0].data['death'] += +d[62];
 
     }
 
@@ -130,7 +126,7 @@ var computePsycoCategories = (authorID) => {
   }
 
   for(var flavor in dataRadial[0].data) {
-      dataRadial[0].data[flavor] = 100 * dataRadial[0].data[flavor] / sum;
+      dataRadial[0].data[flavor] = 300 * dataRadial[0].data[flavor] / sum;
   }
 
   //console.log(dataRadial);
