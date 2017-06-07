@@ -105,7 +105,7 @@ var computePsycoCategories = (authorID) => {
 
   dataCSV.forEach(d => {
 
-    if (d[66] == authorID) { // filtra o author
+    if (d[66] == authorID || 0 == authorID) { // filtra o author
 
       dataRadial[0].data['work'] += +d[56];
       dataRadial[0].data['health'] += +d[49];
@@ -124,7 +124,7 @@ var computePsycoCategories = (authorID) => {
   for(var flavor in dataRadial[0].data) {
       sum += dataRadial[0].data[flavor];
   }
-
+  
   for(var flavor in dataRadial[0].data) {
       dataRadial[0].data[flavor] = 300 * dataRadial[0].data[flavor] / sum;
   }

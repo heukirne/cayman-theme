@@ -23,7 +23,7 @@ var loadData = function(){
                   dataCSV = d3.csv.parseRows(content);
 
                   //remove linha de cabeçalho
-                  console.log(dataCSV[0]);
+                  //console.log(dataCSV[0]);
                   dataCSV.splice(0,1);
 
                   // deixa somente 20 linhas para depuração
@@ -35,8 +35,8 @@ var loadData = function(){
                   // remove "Loading..." e imprime o gráfico
                   $('#title').text("Visualization");
                   selectAuthors();
-                  drawTimeSeries(dataCSV[0][66]);
-                  redrawRadial(dataCSV[0][66]);
+                  drawTimeSeries(0);//0 pq ao inicializar o valor selecionado será "All Authors"
+                  redrawRadial(0);
 
                 }
             )
@@ -47,7 +47,7 @@ var loadData = function(){
 
 var selectAuthors = () => { 
   var authorMap = new Map();
-
+  authorMap.set("All Authors", "0");//adiciona opção para exibir todos os autores
   dataCSV.forEach(d => {
     authorMap.set(d[66],d[66])
   });

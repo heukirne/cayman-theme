@@ -7,7 +7,7 @@ var computePolarities = (authorID) => {
 
   dataCSV.forEach(d => {
 
-    if (d[66] == authorID) { // filtra o author
+    if (d[66] == authorID || 0 == authorID) { // filtra o author
 
       d.date = new Date(d[67]);
       var key = d.date.getTime();
