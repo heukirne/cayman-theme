@@ -25,7 +25,7 @@ var radialChart = radialBarChart()
   .barColors(coffeeColors)
   .domain([0, domainRange])
   .tickValues([10,20,30,40,50,60,70,80,90,100])
-  .tickCircleValues([10,20,30,40,50,60,70,80,90]);
+  .tickCircleValues([10,20,30,40,50,60,70,80,90,100]);
 
 var initChartData = () => {
   // data array used to build D3 chart
