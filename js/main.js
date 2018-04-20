@@ -10,7 +10,7 @@ var loadData = function(){
 
     var zipFile = "story_liwc_author_tiny.csv"; // arquivo com 4K samples
     //var zipFile = "story_liwc_author.csv"; // arquivo com 130K samples
-    JSZipUtils.getBinaryContent('https://heukirne.github.io/wheel-of-life/js/' + zipFile + '.zip', (err, dataLoad) => {
+    JSZipUtils.getBinaryContent('http://henrique.gemeos.org/wheel-of-life/js/' + zipFile + '.zip', (err, dataLoad) => {
         if(err) {
             throw err;
         }
